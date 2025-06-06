@@ -69,7 +69,16 @@ def show_all_things():
 def show_one_thing(id):
     with connect_db() as client:
         # Get the thing details from the DB
-        sql = "SELECT id, name FROM things WHERE id=?"
+        sql = """SELECT things.id AS Item_uid,
+                        things.name AS Item,
+                        users.name AS Name, 
+                        users.id AS Name_uid
+
+                        FROM things 
+                        JOIN users ON things.uid = users.id
+
+                        WHERE things.id=?
+        """
         values = [id]
         result = client.execute(sql, values)
 

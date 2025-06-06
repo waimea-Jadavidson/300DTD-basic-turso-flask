@@ -22,8 +22,11 @@
     <article>
 
         <header>
-            <h3>{{ thing.name }}</h3>
+            <h3>{{ thing.Item}}</h3>
         </header>
+
+        <p>Owner: <strong>{{thing.Name_uid}}</strong></p>
+
         <footer>
             <a href="/delete/{{ thing.id }}" onclick="return confirm('Really delete?');">Delete</a>
         </footer>
