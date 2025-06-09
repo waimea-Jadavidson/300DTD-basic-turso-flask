@@ -1,0 +1,48 @@
+{#=====================================================
+Login page
+  - Kigub
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block title %}
+
+    Flask Demo - Login
+
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>User Login</h1>
+
+    <article>
+
+        <h3>Sign Up</h3>
+
+        <form action="/login-user" method="POST">
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                min="0"
+                placeholder="Password"
+                required
+            >
+
+            <button>Login</button>
+
+        </form>
+
+    </article>
+
+{% endblock %}
+

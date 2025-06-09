@@ -2,12 +2,12 @@
 # App Creation and Launch
 #===========================================================
 
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect,session
 from werkzeug.security import generate_password_hash, check_password_hash
 import html
 
 from app.helpers.session import init_session
-from app.helpers.db import connect_db, handle_db_errors
+from app.helpers.db import connect_db
 from app.helpers.errors import register_error_handlers, not_found_error
 
 
@@ -43,6 +43,49 @@ def about():
 @app.get("/signup/")
 def signup():
     return render_template("pages/signup.jinja")
+
+
+#-----------------------------------------------------------
+# Login Page route
+#-----------------------------------------------------------
+@app.get("/login/")
+def login():
+    return render_template("pages/login.jinja")
+
+
+#-----------------------------------------------------------
+# Route for adding a user, using data posted from a form
+#-----------------------------------------------------------
+@app.post("/login-user")
+def login_user():
+    # Get the data from the form
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    # Sanitise the inputs
+    username = html.escape(username)
+
+
+
+    with connect_db() as client:
+        # Record checking
+        sql = "SELECT id, name, password_hash FROM users WHERE username=?"
+        values = [username]
+        result = client.execute(sql, values)
+
+        # Check if we have record
+        if result.rows:
+            user = result.rows[0]
+            hash = user["password_hash"]
+
+            if check_password_hash(hash,password):
+                session["user_id"] = user["id"]
+                session["user_name"] = user["name"]
+                flash("Login Successfull", "success")
+                return redirect("/")
+
+        flash("Incorrect", "error")
+        return redirect("/login")
 
 
 #-----------------------------------------------------------

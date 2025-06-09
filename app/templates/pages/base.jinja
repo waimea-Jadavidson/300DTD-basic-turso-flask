@@ -36,10 +36,14 @@
                 <li><strong><a href="/">Flask App Demo</a></strong></li>
             </ul>
 
+            {% if session["user_name"] %}
+                <p>Welcome, {{session["user_name"]}}</p>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/things">Things</a></li>
                 <li><a href="/about">About</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+                <li><a href="/login">Login In</a></li>
             </ul>
         </nav>
     </header>
