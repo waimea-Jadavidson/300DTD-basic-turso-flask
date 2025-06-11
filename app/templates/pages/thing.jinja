@@ -19,22 +19,24 @@
     <h1>A Single Thing...</h1>
 
 
-    <article>
+        <article>
 
-        <header>
-            <h3>{{ thing.Item}}</h3>
-        </header>
+            <header>
+                <h3>{{ thing.Item}}</h3>
+            </header>
+    {% if session.user_name %}
+            <p>Owner: <strong>{{thing.Name}}</strong></p>
+            {% if session.user_id == thing.Name_uid%}
+                <footer>
+                    <a href="/delete/{{ thing.id }}" onclick="return confirm('Really delete?');">Delete</a>
+                </footer>
+            {% endif %}
+        </article>
 
-        <p>Owner: <strong>{{thing.Name_uid}}</strong></p>
 
-        <footer>
-            <a href="/delete/{{ thing.id }}" onclick="return confirm('Really delete?');">Delete</a>
-        </footer>
+        <a role="button" href="/things">Back to Thing List</a>
 
-    </article>
-
-
-    <a role="button" href="/things">Back to Thing List</a>
+    {%endif%}
 
 {% endblock %}
 
